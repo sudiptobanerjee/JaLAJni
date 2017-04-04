@@ -41,11 +41,11 @@ Authors
 
 
 #### JaLAJniLite
-
+| Name   | Email       |              |
 |:------ |:----------- | :----------- |
-| Lu Zhang (maintainer)|    Department of Biostatistics  UCLA | lu.zhang@ucla.edu|
-| LiZhen Nie | Department of Statistics Chicago University |    |                             
-| Sudipto Banerjee   |  Department of Biostatistics  UCLA |     |
+| Lu Zhang (maintainer)| lu.zhang@ucla.edu    | Department of Biostatistics  UCLA|
+| LiZhen Nie |                    | Department of Statistics Chicago University  |                             
+| Sudipto Banerjee |                        | Department of Biostatistics  UCLA |
                              
 
 
