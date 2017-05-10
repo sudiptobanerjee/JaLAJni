@@ -7,6 +7,11 @@ Build Instructions
 ------------------
 #### JaLAJni
 
+* JaLAJni requires the installation of lapacke and cblas.
+
+* To compile the package, go to the folder src/JaLAJni, find the Makefile and run "make" on the command line. Notice that you may have to change the extension of generated libraries in the Makefile base on your operating system. On OS X you have to change all the extensions of dynamic library to .dylib while on Linux the corresponding extensions are .so or .a. 
+
+* To clean generated file, type “make clean” on the command line.  
 
 
 
@@ -44,7 +49,7 @@ Authors
 | Name   | Email       |              |
 |:------ |:----------- | :----------- |
 | Lu Zhang (maintainer)| lu.zhang@ucla.edu    | Department of Biostatistics  UCLA|
-| LiZhen Nie |                    | Department of Statistics Chicago University  |                             
+| LiZhen Nie | lznie111@gmail.com        | Department of Statistics Chicago University  |                             
 | Sudipto Banerjee |                        | Department of Biostatistics  UCLA |
                              
 
