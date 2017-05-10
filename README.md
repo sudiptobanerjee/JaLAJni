@@ -50,7 +50,7 @@ Authors
 |:------ |:----------- | :----------- |
 | Lu Zhang (maintainer)| lu.zhang@ucla.edu    | Department of Biostatistics  UCLA|
 | LiZhen Nie | lznie111@gmail.com        | Department of Statistics Chicago University  |                             
-| Sudipto Banerjee |                        | Department of Biostatistics  UCLA |
+| Sudipto Banerjee |sudipto@ucla.edu   | Department of Biostatistics  UCLA |
                              
 
 
