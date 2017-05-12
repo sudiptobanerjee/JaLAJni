@@ -5,24 +5,27 @@
 //  Created by Lu Zhang on 5/8/16.
 //  Copyright © 2016 Lu Zhang. All rights reserved.
 //
-/*CBLAS.c*/
+
+
 #include <jni.h>
 #include <assert.h>
-#include <jniBLAS.h>
+#include <jniCBLAS.h>
 
 /* Calling fortran blas from libblas */
 
 extern void dscal_(int *n, double *alpha, double *a, int *incx);
 
-extern void daxpy_(int *n, double *alpha, double *x, int *incx, double *y, int *incy);
+extern void daxpy_(int *n, double *alpha, double *x, int *incx,
+                   double *y, int *incy);
 
 extern double ddot_(int *n, double *x, int *incx, double *y, int *incy);
 
-extern void dgemv_(char *trans, int *m, int *n, double *alpha, double *A, int *lda,
-                   double *x, int *incx, double *beta, double *y, int *incy);
+extern void dgemv_(char *trans, int *m, int *n, double *alpha, double *A,
+                   int *lda, double *x, int *incx, double *beta,
+                   double *y, int *incy);
 
-extern void dtrmv_(char *uplo, char *trans, char *diag, int *n, double *A, int *lda,
-                   double *x, int *incx);
+extern void dtrmv_(char *uplo, char *trans, char *diag, int *n, double *A,
+                   int *lda, double *x, int *incx);
 
 extern void dsymv_(char *uplo, int *n, double *alpha, double *A, int *lda,
                    double *x, int *incx, double *beta, double *y, int *incy);
@@ -31,11 +34,13 @@ extern void dgemm_(char *transa, char *transb,int *m, int *n,
                    int *k, double *alpha, double *A, int *lda,
                    double *B, int *ldb, double *beta, double *C, int *ldc);
 
-extern void dtrmm_(char *side, char *uplo, char *transa, char *diag, int *m, int *n,
-                   double *alpha, double *A, int *lda, double *B, int *ldb);
+extern void dtrmm_(char *side, char *uplo, char *transa, char *diag, int *m,
+                   int *n, double *alpha, double *A, int *lda, double *B,
+                   int *ldb);
 
-extern void dsymm_(char *side, char *uplo, int *m, int *n, double *alpha, double *A, int *lda,
-                   double *B, int *ldb, double *beta, double *C, int *ldc);
+extern void dsymm_(char *side, char *uplo, int *m, int *n, double *alpha,
+                   double *A, int *lda, double *B, int *ldb, double *beta,
+                   double *C, int *ldc);
 
 #define jniRowMajor 101
 #define jniColMajor 102
@@ -55,7 +60,8 @@ extern void dsymm_(char *side, char *uplo, int *m, int *n, double *alpha, double
 
 /* Level 1: dscal, daxpy, ddot */
 
-JNIEXPORT void Java_JaLAJniLite_jniBLAS_dscal (JNIEnv *env, jclass klass, jint n, jdouble alpha, jdoubleArray x, jint incx){
+JNIEXPORT void Java_JaLAJniLite_jni_1blas_jniCBLAS_dscal
+(JNIEnv *env, jclass klass, jint n, jdouble alpha, jdoubleArray x, jint incx){
     
     /* dscal:  x = alpha * x */
     
@@ -69,7 +75,9 @@ JNIEXPORT void Java_JaLAJniLite_jniBLAS_dscal (JNIEnv *env, jclass klass, jint n
 }
 
 
-JNIEXPORT void Java_JaLAJniLite_jniBLAS_daxpy (JNIEnv *env, jclass klass, jint n, jdouble alpha, jdoubleArray x, jint incx, jdoubleArray y, jint incy){
+JNIEXPORT void Java_JaLAJniLite_jni_1blas_jniCBLAS_daxpy
+(JNIEnv *env, jclass klass, jint n, jdouble alpha, jdoubleArray x,
+ jint incx, jdoubleArray y, jint incy){
     
     /* daxpy: y = alpha * x + y */
     
@@ -84,7 +92,9 @@ JNIEXPORT void Java_JaLAJniLite_jniBLAS_daxpy (JNIEnv *env, jclass klass, jint n
     (*env)-> ReleaseDoubleArrayElements (env, x, xElems, JNI_ABORT);
 }
 
-JNIEXPORT jdouble Java_JaLAJniLite_jniBLAS_ddot (JNIEnv *env, jclass klass, jint n, jdoubleArray x, jint incx, jdoubleArray y, jint incy){
+JNIEXPORT jdouble Java_JaLAJniLite_jni_1blas_jniCBLAS_ddot
+(JNIEnv *env, jclass klass, jint n, jdoubleArray x, jint incx,
+ jdoubleArray y, jint incy){
     
     /* ddot:  forms the dot product of two vectors x and y.*/
     
@@ -105,7 +115,10 @@ JNIEXPORT jdouble Java_JaLAJniLite_jniBLAS_ddot (JNIEnv *env, jclass klass, jint
 
 /* Level 2: dgemv, dtrmv, dsymv */
 
-JNIEXPORT void Java_JaLAJniLite_jniBLAS_dgemv (JNIEnv *env, jclass klass, jint Layout, jint Trans, jint m, jint n, jdouble alpha, jdoubleArray A, jdoubleArray x, jint incx, jdouble beta, jdoubleArray y, jint incy){
+JNIEXPORT void Java_JaLAJniLite_jni_1blas_jniCBLAS_dgemv
+(JNIEnv *env, jclass klass, jint Layout, jint Trans, jint m, jint n,
+ jdouble alpha, jdoubleArray A, jdoubleArray x, jint incx, jdouble beta,
+ jdoubleArray y, jint incy){
     
     /* DGEMV  performs one of the matrix-vector operations
      y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y, */
@@ -124,8 +137,9 @@ JNIEXPORT void Java_JaLAJniLite_jniBLAS_dgemv (JNIEnv *env, jclass klass, jint L
         xElems = (*env)-> GetDoubleArrayElements (env, x, NULL);
         yElems = (*env)-> GetDoubleArrayElements (env, y, NULL);
         assert(AElems && xElems && yElems);
-        
-        dgemv_(&Ts, &n, &m, &alpha, AElems, &n, xElems, &incx, &beta, yElems, &incy);
+
+        dgemv_(&Ts, &n, &m, &alpha, AElems, &n, xElems, &incx, &beta,
+               yElems, &incy);
         
     }
     else if(Layout == jniColMajor){
@@ -139,8 +153,9 @@ JNIEXPORT void Java_JaLAJniLite_jniBLAS_dgemv (JNIEnv *env, jclass klass, jint L
         xElems = (*env)-> GetDoubleArrayElements (env, x, NULL);
         yElems = (*env)-> GetDoubleArrayElements (env, y, NULL);
         assert(AElems && xElems && yElems);
-        
-        dgemv_(&Ts, &m, &n, &alpha, AElems, &m, xElems, &incx, &beta, yElems, &incy);
+
+        dgemv_(&Ts, &m, &n, &alpha, AElems, &m, xElems, &incx, &beta,
+               yElems, &incy);
         
     }
     else {fprintf(stderr, "** Illegal Matrix_Layout setting \n"); return;}
@@ -150,8 +165,9 @@ JNIEXPORT void Java_JaLAJniLite_jniBLAS_dgemv (JNIEnv *env, jclass klass, jint L
     (*env)-> ReleaseDoubleArrayElements (env, A, AElems, JNI_ABORT);
 }
 
-
-JNIEXPORT void Java_JaLAJniLite_jniBLAS_dtrmv (JNIEnv *env, jclass klass, jint Layout, jint Uplo, jint Trans, jint Diag, jint n, jdoubleArray A, jdoubleArray x, jint incx){
+JNIEXPORT void Java_JaLAJniLite_jni_1blas_jniCBLAS_dtrmv
+(JNIEnv *env, jclass klass, jint Layout, jint Uplo, jint Trans, jint Diag,
+ jint n, jdoubleArray A, jdoubleArray x, jint incx){
     
     /*  DTRMV  performs one of the matrix-vector operations
      x := A*x,   or   x := A**T*x,
@@ -205,7 +221,10 @@ JNIEXPORT void Java_JaLAJniLite_jniBLAS_dtrmv (JNIEnv *env, jclass klass, jint L
     (*env)-> ReleaseDoubleArrayElements (env, A, AElems, JNI_ABORT);
 }
 
-JNIEXPORT void Java_JaLAJniLite_jniBLAS_dsymv (JNIEnv *env, jclass klass, jint Layout, jint Uplo, jint n, jdouble alpha, jdoubleArray A, jdoubleArray x, jint incx, jdouble beta, jdoubleArray y, int incy){
+JNIEXPORT void Java_JaLAJniLite_jni_1blas_jniCBLAS_dsymv
+(JNIEnv *env, jclass klass, jint Layout, jint Uplo, jint n, jdouble alpha,
+ jdoubleArray A, jdoubleArray x, jint incx, jdouble beta,
+ jdoubleArray y, int incy){
     
     /*  DSYMV  performs the matrix-vector  operation
      y := alpha*A*x + beta*y
@@ -248,8 +267,10 @@ JNIEXPORT void Java_JaLAJniLite_jniBLAS_dsymv (JNIEnv *env, jclass klass, jint L
 
 /* Level 3: dgemm, dtrmm, dsymm */
 
-JNIEXPORT void Java_JaLAJniLite_jniBLAS_dgemm (JNIEnv *env, jclass klass, jint Layout, jint TransA, jint TransB, jint m, jint n, jint k, jdouble alpha, jdoubleArray  A, jdoubleArray B,jdouble beta, jdoubleArray C){
-    
+JNIEXPORT void Java_JaLAJniLite_jni_1blas_jniCBLAS_dgemm
+(JNIEnv *env, jclass klass, jint Layout, jint TransA, jint TransB, jint m,
+ jint n, jint k, jdouble alpha, jdoubleArray  A, jdoubleArray B,
+ jdouble beta, jdoubleArray C){
     /* DGEMM  performs one of the matrix-matrix operations
      C := alpha*op( A )*op( B ) + beta*C,
      where  op( X ) is one of op( X ) = X   or   op( X ) = X**T,
@@ -262,7 +283,8 @@ JNIEXPORT void Java_JaLAJniLite_jniBLAS_dgemm (JNIEnv *env, jclass klass, jint L
     
     if (Layout == jniRowMajor){
         
-        // if is row-major; switch A and B; swith m and n; alter the value of transa and transb
+        // if is row-major; switch A and B;
+        // swith m and n; alter the value of transa and transb
         if (TransA == jniNoTrans) {TA = 'N'; lda = k;}
         else if (TransA == jniTrans) {TA = 'T'; lda = m;}
         else if (TransA == jniConjTrans) {TA = 'C'; lda = m;}
@@ -278,9 +300,9 @@ JNIEXPORT void Java_JaLAJniLite_jniBLAS_dgemm (JNIEnv *env, jclass klass, jint L
         cElems = (*env)-> GetDoubleArrayElements (env,C,NULL);
         
         assert(aElems && bElems && cElems);
-        
-        //ldc = n;
-        dgemm_(&TB, &TA, &n, &m, &k, &alpha, bElems, &ldb, aElems, &lda, &beta, cElems, &n);
+
+        dgemm_(&TB, &TA, &n, &m, &k, &alpha, bElems, &ldb, aElems, &lda, &beta,
+               cElems, &n);
         
     }
     else if(Layout == jniColMajor){
@@ -301,8 +323,8 @@ JNIEXPORT void Java_JaLAJniLite_jniBLAS_dgemm (JNIEnv *env, jclass klass, jint L
         
         assert(aElems && bElems && cElems);
         
-        //ldc = m;
-        dgemm_(&TA, &TB, &m, &n, &k, &alpha, aElems, &lda, bElems, &ldb, &beta, cElems, &m);
+        dgemm_(&TA, &TB, &m, &n, &k, &alpha, aElems, &lda, bElems, &ldb,
+               &beta, cElems, &m);
         
     }
     else{fprintf(stderr, "** Illegal Matrix_Layout setting \n"); return;}
@@ -313,7 +335,9 @@ JNIEXPORT void Java_JaLAJniLite_jniBLAS_dgemm (JNIEnv *env, jclass klass, jint L
 }
 
 
-JNIEXPORT void Java_JaLAJniLite_jniBLAS_dtrmm (JNIEnv *env, jclass klass, jint Layout, jint Side, jint Uplo, jint TransA, jint Diag, jint m, jint n, jdouble alpha, jdoubleArray  A, jdoubleArray B){
+JNIEXPORT void Java_JaLAJniLite_jni_1blas_jniCBLAS_dtrmm
+(JNIEnv *env, jclass klass, jint Layout, jint Side, jint Uplo, jint TransA,
+ jint Diag, jint m, jint n, jdouble alpha, jdoubleArray  A, jdoubleArray B){
     
     /* dtrmm: performs one of the matrix-matrix operations
      B := alpha*op( A )*B,   or   B := alpha*B*op( A )
@@ -350,8 +374,8 @@ JNIEXPORT void Java_JaLAJniLite_jniBLAS_dtrmm (JNIEnv *env, jclass klass, jint L
         
         assert(aElems && bElems);
         
-        //ldb = n
-        dtrmm_(&side, &uplo, &TA, &diag, &n, &m, &alpha, aElems, &lda, bElems, &n);
+        dtrmm_(&side, &uplo, &TA, &diag, &n, &m, &alpha, aElems, &lda,
+               bElems, &n);
         
     }
     else if(Layout == jniColMajor){
@@ -369,8 +393,8 @@ JNIEXPORT void Java_JaLAJniLite_jniBLAS_dtrmm (JNIEnv *env, jclass klass, jint L
         
         assert(aElems && bElems);
         
-        // ldb = m
-        dtrmm_(&side, &uplo, &TA, &diag, &m, &n, &alpha, aElems, &lda, bElems, &m);
+        dtrmm_(&side, &uplo, &TA, &diag, &m, &n, &alpha, aElems, &lda,
+               bElems, &m);
         
     }
     else{fprintf(stderr, "** Illegal Matrix_Layout setting \n"); return;}
@@ -380,7 +404,10 @@ JNIEXPORT void Java_JaLAJniLite_jniBLAS_dtrmm (JNIEnv *env, jclass klass, jint L
     
 }
 
-JNIEXPORT void Java_JaLAJniLite_jniBLAS_dsymm (JNIEnv *env, jclass klass, jint Layout, jint Side, jint Uplo, jint m, jint n, jdouble alpha, jdoubleArray  A, jdoubleArray B, jdouble beta, jdoubleArray C){
+JNIEXPORT void Java_JaLAJniLite_jni_1blas_jniCBLAS_dsymm
+(JNIEnv *env, jclass klass, jint Layout, jint Side, jint Uplo,
+ jint m, jint n, jdouble alpha, jdoubleArray  A, jdoubleArray B,
+ jdouble beta, jdoubleArray C){
     
     /*DSYMM  performs one of the matrix-matrix operations:
      C := alpha*A*B + beta*C, or C := alpha*B*A + beta*C,
@@ -392,14 +419,15 @@ JNIEXPORT void Java_JaLAJniLite_jniBLAS_dsymm (JNIEnv *env, jclass klass, jint L
     
     if (Layout == jniRowMajor){
         
-        
         if (Side == jniLeft){ side = 'R'; lda = m;}        // C := alpha*A*B + beta*C
         else if(Side == jniRight){side = 'L'; lda = n;}
         else{fprintf(stderr, "** Illegal Side setting \n"); return;}
         
-        if (Uplo == jniUpper){ uplo = 'L';}                // Only the upper triangular part of A is to be referenced
+        if (Uplo == jniUpper){ uplo = 'L';}
+        // Only the upper triangular part of A is to be referenced
 
-        else if(Uplo == jniLower){ uplo = 'U';}            // Only the lower triangular part of B is to be referenced
+        else if(Uplo == jniLower){ uplo = 'U';}
+        // Only the lower triangular part of B is to be referenced
         else{fprintf(stderr, "** Illegal Uplo setting \n"); return;}
         
         aElems = (*env)-> GetDoubleArrayElements (env,A, NULL);
@@ -426,9 +454,8 @@ JNIEXPORT void Java_JaLAJniLite_jniBLAS_dsymm (JNIEnv *env, jclass klass, jint L
         cElems = (*env)-> GetDoubleArrayElements (env,C, NULL);
         
         assert(aElems && bElems && cElems);
-        
-        //ldb = m; ldc = m;
-        dsymm_(&side, &uplo, &m, &n, &alpha, aElems, &lda, bElems, &m, &beta, cElems, &m);
+        dsymm_(&side, &uplo, &m, &n, &alpha, aElems, &lda, bElems, &m, &beta,
+               cElems, &m);
         
     }
     else{fprintf(stderr, "** Illegal Matrix_Layout setting \n");}

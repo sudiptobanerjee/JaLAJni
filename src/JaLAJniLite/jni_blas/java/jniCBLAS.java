@@ -1,9 +1,9 @@
-package JaLAJniLite;
+package JaLAJniLite.jni_blas;
 
 /**CBLAS.java*/
 
-public class jniBLAS {
- private jniBLAS() {}
+public class jniCBLAS {
+ private jniCBLAS() {}
  static {
      
     /* load library (which will contain wrapper for cblas function.)*/
@@ -52,27 +52,39 @@ public class jniBLAS {
         public final static int Right = 142;
     }
     
-    
     /* Level 1: */
     public static native void dscal( int n, double alpha, double[] x, int incx);
     
-    public static native void daxpy( int n, double alpha, double[] x, int incx, double[] y, int incy);
+    public static native void daxpy( int n, double alpha, double[] x, int incx,
+                                    double[] y, int incy);
     
-    public static native double ddot(int n, double[] x, int incx, double[] y, int incy);
+    public static native double ddot(int n, double[] x, int incx, double[] y,
+                                     int incy);
     
     /* Level 2: */
-    public static native void dgemv(int layout, int trans, int m, int n, double alpha, double[] a, double[] x, int incx, double beta, double[] y, int incy);
+    public static native void dgemv(int Layout, int Trans, int m, int n, double
+                                    alpha, double[] A, double[] x, int incx,
+                                    double beta, double[] y, int incy);
     
-    public static native void dtrmv(int layout, int uplo, int trans, int diag, int n, double[] a, double[] x, int incx);
+    public static native void dtrmv(int Layout, int Uplo, int Trans, int Diag,
+                                    int n, double[] A, double[] x, int incx);
     
-    public static native void dsymv(int layout, int uplo, int n, double alpha, double[] a, double[] x, int incx, double beta, double[] y, int incy);
+    public static native void dsymv(int Layout, int Uplo, int n, double alpha,
+                                    double[] A, double[] x, int incx, double beta,
+                                    double[] y, int incy);
     
     /* Level 3: */
-    public static native void dgemm(int layout, int transA, int transB, int m, int n, int k, double alpha, double[] a, double[] b, double beta, double[] c);
+    public static native void dgemm(int Layout, int TransA, int TransB, int m,
+                                    int n, int k, double alpha, double[] A,
+                                    double[] B, double beta, double[] C);
     
-    public static native void dtrmm(int layout, int side, int uplo, int transA, int diag, int m, int n, double alpha, double[] a, double[] b);
+    public static native void dtrmm(int Layout, int Side, int Uplo, int TransA,
+                                    int Diag, int m, int n, double alpha,
+                                    double[] A, double[] B);
     
-    public static native void dsymm(int layout, int side, int uplo, int m, int n, double alpha, double[] a, double[] b, double beta, double[] c);
+    public static native void dsymm(int Layout, int Side, int Uplo, int m, int n,
+                                    double alpha, double[] A, double[] B,
+                                    double beta, double[] C);
     
     /**inform java virtual machine that function is defined externally*/
     
